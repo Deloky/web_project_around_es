@@ -28,3 +28,50 @@ const initialCards = [
 initialCards.forEach(function (card) {
   console.log(card.name);
 });
+
+const editProfileButton = document.querySelector(".profile__edit-button");
+const editPopup = document.querySelector("#edit-popup");
+const closeEditPopupButton = editPopup.querySelector(".popup__close");
+
+const profileNameInput = document.querySelector(".popup__input_type_name");
+const profileDescriptionInput = document.querySelector(
+  ".popup__input_type_description",
+);
+
+const profileName = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__description");
+
+const editProfileForm = editPopup.querySelector(".popup__form");
+
+function openModal(modal) {
+  modal.classList.add("popup_is-opened");
+}
+
+function closeModal(modal) {
+  modal.classList.remove("popup_is-opened");
+}
+
+editProfileButton.addEventListener("click", handleOpenEditModal);
+
+closeEditPopupButton.addEventListener("click", function () {
+  closeModal(editPopup);
+});
+
+function fillProfileForm() {
+  profileNameInput.value = profileName.textContent;
+  profileDescriptionInput.value = profileDescription.textContent;
+}
+
+function handleOpenEditModal() {
+  fillProfileForm();
+  openModal(editPopup);
+}
+
+function handleProfileFormSubmit(evt) {
+  evt.preventDefault();
+  profileName.textContent = profileNameInput.value;
+  profileDescription.textContent = profileDescriptionInput.value;
+  closeModal(editPopup);
+}
+
+editProfileForm.addEventListener("submit", handleProfileFormSubmit);
