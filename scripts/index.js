@@ -25,10 +25,6 @@ const initialCards = [
   },
 ];
 
-initialCards.forEach(function (card) {
-  console.log(card.name);
-});
-
 const editProfileButton = document.querySelector(".profile__edit-button");
 const editPopup = document.querySelector("#edit-popup");
 const closeEditPopupButton = editPopup.querySelector(".popup__close");
@@ -75,3 +71,35 @@ function handleProfileFormSubmit(evt) {
 }
 
 editProfileForm.addEventListener("submit", handleProfileFormSubmit);
+
+const container = document.querySelector(".cards");
+
+const cardsContainer = container.querySelector(".cards__list");
+const cardTemplate = cardsContainer
+  .querySelector("#card-template")
+  .content.querySelector(".card");
+
+function getCardElement(
+  name = "Sin título",
+  link = "./images/placeholder.jpg",
+) {
+  const cardElement = cardTemplate.cloneNode(true);
+
+  const cardTitle = cardElement.querySelector(".card__title");
+  cardTitle.textContent = name;
+
+  const cardImage = cardElement.querySelector(".card__image");
+  cardImage.setAttribute("src", link);
+  cardImage.setAttribute("alt", name);
+
+  return cardElement;
+}
+
+function renderCard(name, link) {
+  const cardEl = getCardElement(name, link);
+  cardsContainer.append(cardEl);
+}
+
+initialCards.forEach((card) => {
+  renderCard(card.name, card.link);
+});
