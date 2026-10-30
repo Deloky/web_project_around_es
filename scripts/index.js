@@ -97,9 +97,34 @@ function getCardElement(
 
 function renderCard(name, link) {
   const cardEl = getCardElement(name, link);
-  cardsContainer.append(cardEl);
+  cardsContainer.prepend(cardEl);
 }
 
 initialCards.forEach((card) => {
   renderCard(card.name, card.link);
 });
+
+const addCardButton = document.querySelector(".profile__add-button");
+const newCardPopup = document.querySelector("#new-card-popup");
+const closeAddCardButton = newCardPopup.querySelector(".popup__close");
+const addCardForm = newCardPopup.querySelector(".popup__form");
+
+const cardNameInput = addCardForm.querySelector(".popup__input_type_card-name");
+const cardUrlInput = addCardForm.querySelector(".popup__input_type_url");
+
+addCardButton.addEventListener("click", () => {
+  openModal(newCardPopup);
+});
+
+closeAddCardButton.addEventListener("click", () => {
+  closeModal(newCardPopup);
+});
+
+function handleCardFormSubmit(evt) {
+  evt.preventDefault();
+  renderCard(cardNameInput.value, cardUrlInput.value);
+  evt.target.reset();
+  closeModal(newCardPopup);
+}
+
+addCardForm.addEventListener("submit", handleCardFormSubmit);
