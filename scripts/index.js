@@ -79,6 +79,21 @@ const cardTemplate = cardsContainer
   .querySelector("#card-template")
   .content.querySelector(".card");
 
+const imagePopup = document.querySelector("#image-popup");
+const popupImage = imagePopup.querySelector(".popup__image");
+const popupCaption = imagePopup.querySelector(".popup__caption");
+const closeImagePopupButton = imagePopup.querySelector(".popup__close");
+function handleImageClick(name, link) {
+  popupImage.src = link;
+  popupImage.alt = name;
+  popupCaption.textContent = name;
+  openModal(imagePopup);
+}
+
+closeImagePopupButton.addEventListener("click", () => {
+  closeModal(imagePopup);
+});
+
 function getCardElement(
   name = "Sin título",
   link = "./images/placeholder.jpg",
@@ -91,23 +106,8 @@ function getCardElement(
   const cardImage = cardElement.querySelector(".card__image");
   cardImage.setAttribute("src", link);
   cardImage.setAttribute("alt", name);
-  const imagePopup = document.querySelector("#image-popup");
-  const popupImage = imagePopup.querySelector(".popup__image");
-  const popupCaption = imagePopup.querySelector(".popup__caption");
-  const closeImagePopupButton = imagePopup.querySelector(".popup__close");
-  function handleImageClick(name, link) {
-    popupImage.src = link;
-    popupImage.alt = name;
-    popupCaption.textContent = name;
-
-    openModal(imagePopup);
-  }
   cardImage.addEventListener("click", () => {
     handleImageClick(name, link);
-  });
-
-  closeImagePopupButton.addEventListener("click", () => {
-    closeModal(imagePopup);
   });
 
   const cardLikeButton = cardElement.querySelector(".card__like-button");
@@ -123,13 +123,13 @@ function getCardElement(
   return cardElement;
 }
 
-function renderCard(name, link) {
+function renderCard(name, link, container) {
   const cardEl = getCardElement(name, link);
-  cardsContainer.prepend(cardEl);
+  container.prepend(cardEl);
 }
 
 initialCards.forEach((card) => {
-  renderCard(card.name, card.link);
+  renderCard(card.name, card.link, cardsContainer);
 });
 
 const addCardButton = document.querySelector(".profile__add-button");
@@ -150,7 +150,7 @@ closeAddCardButton.addEventListener("click", () => {
 
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
-  renderCard(cardNameInput.value, cardUrlInput.value);
+  renderCard(cardNameInput.value, cardUrlInput.value, cardsContainer);
   evt.target.reset();
   closeModal(newCardPopup);
 }
