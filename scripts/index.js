@@ -91,6 +91,24 @@ function getCardElement(
   const cardImage = cardElement.querySelector(".card__image");
   cardImage.setAttribute("src", link);
   cardImage.setAttribute("alt", name);
+  const imagePopup = document.querySelector("#image-popup");
+  const popupImage = imagePopup.querySelector(".popup__image");
+  const popupCaption = imagePopup.querySelector(".popup__caption");
+  const closeImagePopupButton = imagePopup.querySelector(".popup__close");
+  function handleImageClick(name, link) {
+    popupImage.src = link;
+    popupImage.alt = name;
+    popupCaption.textContent = name;
+
+    openModal(imagePopup);
+  }
+  cardImage.addEventListener("click", () => {
+    handleImageClick(name, link);
+  });
+
+  closeImagePopupButton.addEventListener("click", () => {
+    closeModal(imagePopup);
+  });
 
   const cardLikeButton = cardElement.querySelector(".card__like-button");
   cardLikeButton.addEventListener("click", (evt) => {
